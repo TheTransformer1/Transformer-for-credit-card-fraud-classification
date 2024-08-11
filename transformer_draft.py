@@ -1,7 +1,7 @@
 import torch
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, PowerTransformer
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
@@ -9,12 +9,23 @@ import pandas as pd
 from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, roc_curve
 import matplotlib.pyplot as plt
 import seaborn as sns
+import numpy
 
 # file_path = 'creditcard_2023.csv'
 file_path = 'creditcard_2013.csv'
 data = pd.read_csv(file_path)
 
 X = data.drop('Class', axis=1)
+################################
+tot_seconds = X['Time']
+X['sin_tot_seconds'] = np.sin(2 * np.pi * tot_seconds / (24 * 60 * 60))
+X['cos_tot_seconds'] = np.cos(2 * np.pi * tot_seconds / (24 * 60 * 60))
+# X = data.drop('Time', axis=1)
+X = data.drop('Time', axis=1)
+amount_pt = PowerTransformer(method='box-cox')
+X['Amount'] = amount_pt.fit_transform(X[['Amount']] + 1e-9)
+################################
+
 y = data['Class']
 
 scaler = StandardScaler()

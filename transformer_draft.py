@@ -48,8 +48,10 @@ class TransformerModel(nn.Module):
     def __init__(self, input_dim, num_heads, num_classes):
         super(TransformerModel, self).__init__()
         self.attention = nn.MultiheadAttention(embed_dim=input_dim, num_heads=num_heads, batch_first=True)
-        self.fc1 = nn.Linear(input_dim, 128)
-        self.fc2 = nn.Linear(128, num_classes)
+        self.fc1 = nn.Linear(input_dim, 2)
+        # self.fc1 = nn.Linear(input_dim, 128)
+        self.fc2 = nn.Linear(2, num_classes)
+        # self.fc2 = nn.Linear(128, num_classes)
 
     def forward(self, x):
         attn_output, _ = self.attention(x, x, x)

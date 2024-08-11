@@ -9,7 +9,7 @@ import pandas as pd
 from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, roc_curve
 import matplotlib.pyplot as plt
 import seaborn as sns
-import numpy
+import numpy as np
 
 # file_path = 'creditcard_2023.csv'
 file_path = 'creditcard_2013.csv'

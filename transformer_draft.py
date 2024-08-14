@@ -24,6 +24,16 @@ X['cos_tot_seconds'] = np.cos(2 * np.pi * tot_seconds / (24 * 60 * 60))
 X = data.drop('Time', axis=1)
 amount_pt = PowerTransformer(method='box-cox')
 X['Amount'] = amount_pt.fit_transform(X[['Amount']] + 1e-9)
+##### The above is wrong since "Class" is not really dropped from X 
+
+tot_seconds = X['Time']
+X['sin_tot_seconds'] = np.sin(2 * np.pi * tot_seconds / (24 * 60 * 60))
+X['cos_tot_seconds'] = np.cos(2 * np.pi * tot_seconds / (24 * 60 * 60))
+# X = data.drop('Time', axis=1)
+X = X.drop('Time', axis=1)
+amount_pt = PowerTransformer(method='box-cox')
+X['Amount'] = amount_pt.fit_transform(X[['Amount']] + 1e-9)
+X['Extra'] = 0 # so that (input_dim % num_heads == 0) where input_dim is 32
 ################################
 
 y = data['Class']
@@ -60,7 +70,7 @@ class TransformerModel(nn.Module):
         x = torch.sigmoid(self.fc2(x))
         return x.squeeze()
 
-model = TransformerModel(input_dim=X_train.shape[1], num_heads=6, num_classes=1)
+model = TransformerModel(input_dim=X_train.shape[1], num_heads=4, num_classes=1)
 
 criterion = nn.BCELoss()
 optimizer = optim.Adam(model.parameters(), lr=0.001)

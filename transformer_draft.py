@@ -17,13 +17,13 @@ data = pd.read_csv(file_path)
 
 X = data.drop('Class', axis=1)
 ################################
-tot_seconds = X['Time']
-X['sin_tot_seconds'] = np.sin(2 * np.pi * tot_seconds / (24 * 60 * 60))
-X['cos_tot_seconds'] = np.cos(2 * np.pi * tot_seconds / (24 * 60 * 60))
+# tot_seconds = X['Time']
+# X['sin_tot_seconds'] = np.sin(2 * np.pi * tot_seconds / (24 * 60 * 60))
+# X['cos_tot_seconds'] = np.cos(2 * np.pi * tot_seconds / (24 * 60 * 60))
 # X = data.drop('Time', axis=1)
-X = data.drop('Time', axis=1)
-amount_pt = PowerTransformer(method='box-cox')
-X['Amount'] = amount_pt.fit_transform(X[['Amount']] + 1e-9)
+# X = data.drop('Time', axis=1)
+# amount_pt = PowerTransformer(method='box-cox')
+# X['Amount'] = amount_pt.fit_transform(X[['Amount']] + 1e-9)
 ##### The above is wrong since "Class" is not really dropped from X 
 
 tot_seconds = X['Time']
